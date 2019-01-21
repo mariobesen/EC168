@@ -1,0 +1,201 @@
+; Copyright (c) 2006-10, e3C, Inc.
+; SinoVideo Single Tuner Device
+
+[Version]
+signature="$CHICAGO$" ;all windows os
+Class=MEDIA
+ClassGUID={4d36e96c-e325-11ce-bfc1-08002be10318}
+Provider=%e3C%
+CatalogFile=EC168BDA.cat
+DriverVer=09/10/2007, 1.1.8.2
+
+[Manufacturer]
+%e3C%=EC168, NTx86, NTamd64
+
+[EC168]
+%Vid_18B4&Pid_1689&MI_01.DeviceDesc%=EC168Install,USB\VID_18B4&PID_1689&MI_01
+%Vid_18B4&Pid_FFFB&MI_01.DeviceDesc%=EC168Install,USB\VID_18B4&PID_FFFB&MI_01
+
+[EC168.NTx86]
+%Vid_18B4&Pid_1689&MI_01.DeviceDesc%=EC168Install,USB\VID_18B4&PID_1689&MI_01
+%Vid_18B4&Pid_FFFB&MI_01.DeviceDesc%=EC168Install,USB\VID_18B4&PID_FFFB&MI_01
+
+[EC168.NTamd64]
+%Vid_18B4&Pid_1689&MI_01.DeviceDesc%=EC168Install,USB\VID_18B4&PID_1689&MI_01
+%Vid_18B4&Pid_FFFB&MI_01.DeviceDesc%=EC168Install,USB\VID_18B4&PID_FFFB&MI_01
+
+[DestinationDirs]
+EC168x64.CopyFiles=10,system32\drivers ; be aware not to use 12 as the drivers directory, 
+EC168BDA.CopyFiles=10,system32\drivers ; as driver will not work anymore in W98
+
+[SourceDisksNames]
+1 = %INSTALLATION_DISK%,,
+
+[SourceDisksFiles]
+HUCoInstaller.dll=1
+EC168x64.sys=1
+EC168BDA.sys=1
+EC168BDA.bin=1
+EC168Hid.dat=1
+EEPROM.bin=1
+
+[EC168Install.NTamd64]
+Include=ks.inf, kscaptur.inf, bda.inf, wdmaudio.inf
+Needs=KS.Registration.NT,KSCAPTUR.Registration.NT,BDA.Registration.NT,bda.Installation.NT,bdacap.Installation.NT,wdmaudio.Registration.NT
+CopyFiles=EC168x64.CopyFiles
+AddReg=EC168x64.AddReg
+
+[EC168Install.NTx86]
+Include=ks.inf, kscaptur.inf, bda.inf, wdmaudio.inf
+Needs=KS.Registration.NT,KSCAPTUR.Registration.NT,BDA.Registration.NT,bda.Installation.NT,bdacap.Installation.NT,wdmaudio.Registration.NT
+CopyFiles=EC168BDA.CopyFiles
+AddReg=EC168BDA.AddReg
+
+[EC168Install.NT]
+Include=ks.inf, kscaptur.inf, bda.inf, wdmaudio.inf
+Needs=KS.Registration.NT,KSCAPTUR.Registration.NT,BDA.Registration.NT,bda.Installation.NT,bdacap.Installation.NT,wdmaudio.Registration.NT
+CopyFiles=EC168BDA.CopyFiles
+AddReg=EC168BDA.AddReg
+
+[EC168x64.CopyFiles]
+EC168x64.sys
+EC168BDA.bin
+EC168Hid.dat
+EEPROM.bin
+
+[EC168x64.AddReg]
+HKR,,DevLoader,,*NTKERN
+HKR,,NTMPDriver,,EC168x64.sys
+
+[EC168BDA.CopyFiles]
+EC168BDA.sys
+EC168BDA.bin
+EC168Hid.dat
+EEPROM.bin
+
+[EC168BDA.AddReg]
+HKR,,DevLoader,,*NTKERN
+HKR,,NTMPDriver,,EC168BDA.sys
+
+[EC168Install.NTamd64.Services]
+AddService=EC168x64, 0x00000002, EC168x64.ServiceInstall
+
+[EC168x64.ServiceInstall]
+DisplayName=%DISPLAY_NAME%
+Description=%SERVICE_DESCRIPTION%
+ServiceType=%SERVICE_KERNEL_DRIVER%
+StartType=%SERVICE_DEMAND_START%
+ErrorControl=%SERVICE_ERROR_IGNORE%
+ServiceBinary=%12%\EC168x64.sys
+
+[EC168Install.NTx86.Services]
+AddService=EC168BDA, 0x00000002, EC168BDA.ServiceInstall
+
+[EC168Install.NT.Services]
+AddService=EC168BDA, 0x00000002, EC168BDA.ServiceInstall
+
+[EC168BDA.ServiceInstall]
+DisplayName=%DISPLAY_NAME%
+Description=%SERVICE_DESCRIPTION%
+ServiceType=%SERVICE_KERNEL_DRIVER%
+StartType=%SERVICE_DEMAND_START%
+ErrorControl=%SERVICE_ERROR_IGNORE%
+ServiceBinary=%12%\EC168BDA.sys
+
+[EC168Install.NTamd64.Interfaces]
+AddInterface=%KSCATEGORY_BDA_RECEIVER_COMPONENT%,%VAMP_DGTL_CAP_FILTER%,EC168BDA.DgtlCapture,0
+AddInterface=%KSCATEGORY_BDA_NETWORK_TUNER%,%VAMP_DGTL_TUNER_FILTER%,EC168BDA.DgtlTuner,0
+
+[EC168Install.NTx86.Interfaces]
+AddInterface=%KSCATEGORY_BDA_RECEIVER_COMPONENT%,%VAMP_DGTL_CAP_FILTER%,EC168BDA.DgtlCapture,0
+AddInterface=%KSCATEGORY_BDA_NETWORK_TUNER%,%VAMP_DGTL_TUNER_FILTER%,EC168BDA.DgtlTuner,0
+
+[EC168Install.NT.Interfaces]
+AddInterface=%KSCATEGORY_BDA_RECEIVER_COMPONENT%,%VAMP_DGTL_CAP_FILTER%,EC168BDA.DgtlCapture,0
+AddInterface=%KSCATEGORY_BDA_NETWORK_TUNER%,%VAMP_DGTL_TUNER_FILTER%,EC168BDA.DgtlTuner,0
+
+[EC168BDA.DgtlCapture]
+AddReg=EC168BDA.DgtlCapture.AddReg
+
+[EC168BDA.DgtlCapture.AddReg]
+HKR,,CLSID,,%KSProxy.CLSID%
+HKR,,FriendlyName,,%EC168BDA.DgtlCaptureName%
+
+[EC168BDA.DgtlTuner]
+AddReg=EC168BDA.DgtlTuner.AddReg
+
+[EC168BDA.DgtlTuner.AddReg]
+HKR,,CLSID,,%KSProxy.CLSID%
+HKR,,FriendlyName,,%EC168BDA.DgtlTunerName%
+
+[EC168Install.NTamd64.CoInstallers]
+CopyFiles = EC168BDA.CopyCoInst
+AddReg = EC168BDA.CoInstaller_AddReg
+
+[EC168Install.NTx86.CoInstallers]
+CopyFiles = EC168BDA.CopyCoInst
+AddReg = EC168BDA.CoInstaller_AddReg
+
+[EC168Install.NT.CoInstallers]
+CopyFiles = EC168BDA.CopyCoInst
+AddReg = EC168BDA.CoInstaller_AddReg
+
+[EC168BDA.CoInstaller_AddReg]
+HKR,,CoInstallers32,0x00010000,"HUCoInstaller.dll, CoInstallerEntry"
+
+[EC168BDA.CopyCoInst]
+HUCoInstaller.dll
+
+[Strings]
+; Proxy GUIDs
+
+KSProxy.CLSID   = "{17CCA71B-ECD7-11D0-B908-00A0C9223196}"
+KSXBar.CLSID    = "{71F96460-78F3-11d0-A18C-00A0C9118956}"
+KSTVAudio.CLSID = "{71F96462-78F3-11d0-A18C-00A0C9118956}"
+KSTvTune.CLSID  = "{266EEE40-6C63-11cf-8A03-00AA006ECB65}"
+
+; Category GUIDs
+
+KSCATEGORY_CAPTURE                = "{65E8773D-8F56-11D0-A3B9-00A0C9223196}"
+KSCATEGORY_VIDEO                  = "{6994AD05-93EF-11D0-A3CC-00A0C9223196}"
+KSCATEGORY_AUDIO                  = "{6994AD04-93EF-11D0-A3CC-00A0C9223196}"
+KSCATEGORY_CROSSBAR               = "{a799a801-a46d-11d0-a18c-00a02401dcd4}"
+KSCATEGORY_TVAUDIO                = "{a799a802-a46d-11d0-a18c-00a02401dcd4}"
+KSCATEGORY_TVTUNER                = "{a799a800-a46d-11d0-a18c-00a02401dcd4}"
+KSCATEGORY_BDA_RECEIVER_COMPONENT = "{FD0A5AF4-B41D-11d2-9C95-00C04F7971E0}"
+; DShow category "BDA Sourcefilter":
+KSCATEGORY_BDA_NETWORK_TUNER      = "{71985F48-1CA1-11d3-9CC8-00C04F7971E0}"
+
+; Our Filter GUIDs
+VAMP_DGTL_CAP_FILTER     = "{BC4E7222-1E7E-4ec9-B492-FD25CE652E5A}"
+VAMP_DGTL_TUNER_FILTER   = "{9359271F-A13B-4d92-B68A-1563E8C9350C}"
+
+; system defines
+
+SERVICE_BOOT_START = 0x0 
+SERVICE_SYSTEM_START = 0x1 
+SERVICE_AUTO_START = 0x2 
+SERVICE_DEMAND_START = 0x3 
+SERVICE_DISABLED = 0x4 
+
+SERVICE_KERNEL_DRIVER = 0x1 
+SERVICE_ERROR_IGNORE = 0x0 
+SERVICE_ERROR_NORMAL = 0x1 
+SERVICE_ERROR_SEVERE = 0x2
+SERVICE_ERROR_CRITICAL = 0x3 
+
+FLG_REGSVR_DLLREGISTER = 0x00000001
+
+;Our strings
+
+e3C="e3C, Inc."
+Vid_18B4&Pid_1689&MI_01.DeviceDesc = "DVB-T Device"
+Vid_18B4&Pid_FFFB&MI_01.DeviceDesc = "DVB-T Device"
+
+INSTALLATION_DISK        = "EC168 installation disk"
+DISPLAY_NAME             = "EC168BDA service"
+SERVICE_DESCRIPTION      = "EC168 BDA Driver"
+
+;Our Friendly Names
+EC168BDA.DgtlCaptureName = "EC168 BDA Digital Capture"
+EC168BDA.DgtlTunerName   = "EC168 BDA Digital Tuner"
